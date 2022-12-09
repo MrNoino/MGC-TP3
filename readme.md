@@ -4,7 +4,7 @@ To execute the application you should execute the file "app.py" in the command l
 
 The file "log.txt" will be created if any exception occour or it will be appended so you can see the exception.
 
-Every other files are support files to the program, containing functions and images to test the program.
+Every other files are support files to the program, containing classes of the program.
 
 # Readme sobre o trabalho prático nº 2 de Multímédia e Computação Gráfica (PT)
 
@@ -14,6 +14,6 @@ que é o ficheiro principal.
 O ficheiro "log.txt" será criado em caso de alguma exceção ou será acrescentado pelo que poderá
 consultar a exceção caso esta ocorra.
 
-Todos os outros ficheiros são ficheiros de suporte ao programa, contendo funções e imagens para testar o programa.
+Todos os outros ficheiros são ficheiros de suporte ao programa, contendo classes do programa.
 
 **Nuno Lopes | Karine Florencio**
