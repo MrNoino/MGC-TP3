@@ -16,6 +16,4 @@ consultar a exceção caso esta ocorra.
 
 Todos os outros ficheiros são ficheiros de suporte ao programa, contendo classes do programa.
 
-Exemplo
-
 **Nuno Lopes | Karine Florencio**
