@@ -1,3 +1,5 @@
+Alterado...
+
 # Readme about the Multimedia and Graphic Computing's pratical work nº 3 (EN)
 
 To execute the application you should execute the file "app.py" in the command line.
