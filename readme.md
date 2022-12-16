@@ -18,6 +18,6 @@ consultar a exceção caso esta ocorra.
 
 Todos os outros ficheiros são ficheiros de suporte ao programa, contendo classes do programa.
 
-Para ver os requisitos do projeto, [Clique aqui](https://trello.com/b/jiQjMHXh/mgc-tp3)
+Para ver os requisitos do projeto, [Clique Aqui](https://trello.com/b/jiQjMHXh/mgc-tp3)
 
 **Nuno Lopes | Karine Florencio**
