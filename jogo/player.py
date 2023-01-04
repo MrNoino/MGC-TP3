@@ -30,19 +30,20 @@ class Player(entity.Entity):
 
                 super().move((-5, 0))
 
-        if self._rect.right < windowSize[0]:
+        if self._rect.right < int(windowSize[0] / 3): 
 
             if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
 
                 super().move((5, 0))
 
-        if self._rect.top > 0:
+
+        if self._rect.top > 0: 
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
 
                 super().move((0, -5))
 
-        if self._rect.bottom < windowSize[1]:
+        if self._rect.bottom < windowSize[1]: 
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
 
