@@ -67,5 +67,3 @@ class Entity(pygame.sprite.Sprite):
         self._rect.center = position
 
         return True
-        
-

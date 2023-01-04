@@ -36,6 +36,7 @@ class Player(entity.Entity):
 
                 super().move((5, 0))
 
+
         if self._rect.top > 0: 
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
