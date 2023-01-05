@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 import random, time
-
 import entity
 
 
@@ -36,7 +35,13 @@ class Enemy(entity.Entity):
         super().__init__(self.__image_zumbiF[0], position)
 
 
-    def move(self, velocity, display):
+    def getFinal(self, displaySize):
+
+        if self.rect.left <= int(displaySize[0]/3):
+            return True
+
+
+    def move(self, displaySize, velocity):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if self.__value >= len(self.__image_zumbiF)*self.__speed_animation:
             self.__value = 0
@@ -46,9 +51,9 @@ class Enemy(entity.Entity):
 
         self.__value += 1
 
-        if self._rect.right < 0:
+        if self.rect.right < 0:
 
-            self.reset("Z", (display[0], random.randint(40,display[1]-40)))
+            self.reset("Z", (displaySize[0], random.randint(50,displaySize[1]-50)))
         #     Game-over
         #
         # top

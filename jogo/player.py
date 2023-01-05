@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 import entity
+from shot import Shot
 
 class Player(entity.Entity):
 
@@ -16,34 +17,43 @@ class Player(entity.Entity):
 
         return self.__username
 
-    def shoot(self):
+    def shoot(self, windowSize, all_shots):
 
-        1 == 1
+        if pygame.event.wait(10).type == KEYDOWN:
+            if pygame.key.get_pressed()[K_SPACE]:
+                if len(all_shots.sprites()) < 10:
+
+                    all_shots.add(Shot(self.rect.midright))
+
+        for shot in all_shots:
+            if shot.getPosition() > windowSize[0]:
+                all_shots.remove(shot)
+
 
     def move(self, windowSize):
 
         __pressed_keys = pygame.key.get_pressed()
 
-        if self._rect.left > 0:
+        if self.rect.left > 0:
 
             if __pressed_keys[K_LEFT] or __pressed_keys[K_a]:
 
                 super().move((-5, 0))
 
-        if self._rect.right < int(windowSize[0] / 3): 
+        if self.rect.right < int(windowSize[0] / 3):
 
             if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
 
                 super().move((5, 0))
 
 
-        if self._rect.top > 0: 
+        if self.rect.top > 0:
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
 
                 super().move((0, -5))
 
-        if self._rect.bottom < windowSize[1]: 
+        if self.rect.bottom < windowSize[1]:
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
 
