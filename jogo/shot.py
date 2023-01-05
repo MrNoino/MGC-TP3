@@ -2,15 +2,29 @@ import pygame
 from pygame.locals import *
 import random, time
 import entity
+import utils
+from globals import *
 
 class Shot(entity.Entity):
     # Atributes
     # rect
-    __speed_animation = 8
-    __value = 0
-    __img = [pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_000.png"), (10,8))]
-
+    
+    
     def __init__(self, position):
+
+        self.__speed_animation = 8
+        self.__value = 0
+
+        try:
+
+            self.__img = [pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_000.png"), shot_size)]
+
+        except Exception as e:
+
+            #escreve um log com a exceção
+            utils.saveLog(e)
+
+            return
 
         super().__init__(self.__img[0], position)
         rect = super().getRect()

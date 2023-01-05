@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import entity
 from shot import Shot
+from globals import *
 
 class Player(entity.Entity):
 
@@ -53,7 +54,7 @@ class Player(entity.Entity):
 
                 super().move((0, -5))
 
-        if self.rect.bottom < windowSize[1]:
+        if self.rect.bottom < (windowSize[1] - 25):
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
 
