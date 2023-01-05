@@ -24,7 +24,7 @@ class Entity(pygame.sprite.Sprite):
 
         self._image = pygame.image.load(imagePath)
 
-        self._setRect()
+        self._updateRect()
 
     def getRect(self):
 
