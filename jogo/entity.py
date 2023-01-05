@@ -20,11 +20,9 @@ class Entity(pygame.sprite.Sprite):
 
         return self._image
 
-    def setImage(self, imagePath):
+    def setImage(self, image):
 
-        self._image = pygame.image.load(imagePath)
-
-        self._updateRect()
+        self._image = image
 
     def getRect(self):
 
@@ -32,7 +30,7 @@ class Entity(pygame.sprite.Sprite):
 
     def _updateRect(self):
 
-        self._rect = self.image.get_rect()
+        self._rect = self._image.get_rect()
 
     def move(self, position):
 
@@ -60,6 +58,8 @@ class Entity(pygame.sprite.Sprite):
 
             self._rect.right = 0
 
+        elif side == 'Z':
+            self._rect.midleft = position
         else:
 
             return False
