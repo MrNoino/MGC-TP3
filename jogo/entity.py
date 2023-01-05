@@ -2,8 +2,6 @@ import pygame
 
 class Entity(pygame.sprite.Sprite):
 
-    _image = None
-
     def __init__(self, image, position):
 
         super().__init__()
@@ -29,6 +27,10 @@ class Entity(pygame.sprite.Sprite):
     def _updateRect(self):
 
         self.rect = self._image.get_rect()
+
+    def _updateRect(self, position, size):
+
+        self.rect = self.rect.update(position[0], position[1], size[0], size[1])
 
     def move(self, position):
 
