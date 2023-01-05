@@ -1,0 +1,4 @@
+
+[WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto	05/01/2023 18:19:21
+
+[WinError 10054] Uma ligação existente foi forçada a fechar pelo anfitrião remoto	05/01/2023 20:14:45
