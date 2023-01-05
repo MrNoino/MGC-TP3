@@ -4,17 +4,15 @@ class Entity(pygame.sprite.Sprite):
 
     _image = None
 
-    _rect = None
-
     def __init__(self, image, position):
 
         super().__init__()
 
         self._image = image
 
-        self._rect = self._image.get_rect()
+        self.rect = self._image.get_rect()
 
-        self._rect.center = position
+        self.rect.center = position
 
     def getImage(self):
 
@@ -26,44 +24,44 @@ class Entity(pygame.sprite.Sprite):
 
     def getRect(self):
 
-        return self._rect
+        return self.rect
 
     def _updateRect(self):
 
-        self._rect = self._image.get_rect()
+        self.rect = self._image.get_rect()
 
     def move(self, position):
 
-        self._rect.move_ip(position[0], position[1])
+        self.rect.move_ip(position[0], position[1])
 
     def draw(self, surface):
 
-        surface.blit(self._image, self._rect)
+        surface.blit(self._image, self.rect)
 
     def reset(self, side, position):
 
         if side == 'Top':
 
-            self._rect.top = 0
+            self.rect.top = 0
 
         elif side == 'Bottom':
 
-            self._rect.bottom = 0
+            self.rect.bottom = 0
 
         elif side == 'Left':
 
-            self._rect.left = 0
+            self.rect.left = 0
 
         elif side == 'Right':
 
-            self._rect.right = 0
+            self.rect.right = 0
 
         elif side == 'Z':
-            self._rect.midleft = position
+            self.rect.midleft = position
         else:
 
             return False
 
-        self._rect.center = position
+        self.rect.center = position
 
         return True
