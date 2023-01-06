@@ -20,7 +20,7 @@ DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.RESIZABLE, vsync=1)
 
 try:
 
-    player_img = pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Shoot (1).png"), player_size)
+    player_img = pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Idle (1).png"), playerF_size)
 
 except Exception as e:
 

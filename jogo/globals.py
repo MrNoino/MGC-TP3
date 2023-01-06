@@ -1,4 +1,6 @@
-player_size = (110, 100)
+playerF_size = (110, 100)
+
+playerM_size = (100,100)
 
 npcF_size = (90, 100)
 
