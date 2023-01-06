@@ -6,8 +6,22 @@ npcM_size = (80,90)
 
 shot_size = (10, 8)
 
-shot_speed = 5
+shot_speed = 10
 
 npc_speed = 1
 
 score_per_kill = 100
+
+BLUE  = (0, 0, 255)
+
+RED   = (255, 0, 0)
+
+GREEN = (120, 255, 120)
+
+BLACK = (0, 0, 0)
+
+WHITE = (255, 255, 255)
+
+GRAY = (128, 128, 128)
+
+YELLOW = (218, 165, 32)

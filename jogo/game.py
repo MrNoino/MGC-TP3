@@ -2,13 +2,21 @@ import pygame, sys
 from pygame.locals import *
 import random, time
 from player import Player
-from entity import Entity
 from npc import Enemy
-import shot
 import utils
 from globals import *
 
-SPEED = 1
+pygame.init()
+
+menu_font = pygame.font.Font(None, 50)
+font = pygame.font.SysFont("Verdana", 60)
+font_small = pygame.font.SysFont("Verdana", 20)
+
+DISPLAY = pygame.display.get_desktop_sizes()[0]
+DISPLAY = (DISPLAY[0], DISPLAY[1]-50)
+
+#DISPLAYSURF = pygame.display.set_mode(DISPLAY)
+DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.RESIZABLE, vsync=1)
 
 try:
 
@@ -21,134 +29,222 @@ except Exception as e:
 
     exit(1)
 
-
-#Creating colors
-BLUE  = (0, 0, 255)
-RED   = (255, 0, 0)
-GREEN = (120, 255, 120)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-YELLOW = (255,255,0)
-
 def initGraphics(DS):
-    #pygame.mixer.Sound('background.wav').play(loops=-1)
+    
     DS.fill(WHITE)
-    global font_small
-    DS.blit(font_small.render("Bem-Vindo ao Zgame!",True,BLUE), (50,50))
+
+    item_surface = font.render("Bem-Vindo ao Zombie Party!", True, GRAY)
+
+    item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, DISPLAY[1] // 2))
+
+    DS.blit(item_surface, item_rect)
+
     pygame.display.flip()
-    time.sleep(1)
 
-def gameOver(DS, all_sprites, all_shots):
-    DS.fill(RED)
-    # gameOver(DISPLAYSURF) a criar...
-    event = pygame.event.wait()
-    pressed_key = pygame.key.get_pressed()
-    if event.type == KEYDOWN:
-        if pressed_key[K_r]:
-            # setupGame(DISPLAYSURF)
-            1==1
-        if pressed_key[K_e]:
-            for entity in all_sprites:
-                entity.kill()
-            for shot in all_shots:
-                shot.kill()
-            time.sleep(2)
-            pygame.quit()
-            sys.exit()
+    time.sleep(2)
 
-#Initialzing
-pygame.init()
-# Creating a new clock object to
-# track the amount of time
-clock = pygame.time.Clock()
-#Setting up Fonts
-font = pygame.font.SysFont("Verdana", 60)
-font_small = pygame.font.SysFont("Verdana", 20)
+    game_menu(['Iniciar jogo', 'Sair'])
 
-DISPLAY = pygame.display.get_desktop_sizes()[0]
-DISPLAY = (DISPLAY[0], DISPLAY[1]-50)
+def game_menu(menu_items):
 
-try:
+    # Título da janela do jogo
+    pygame.display.set_caption("Menu de jogo")
 
-    background =  pygame.transform.smoothscale(pygame.image.load("png/grass-hanpaited2.jpg"),(200,200))
+    pygame.event.clear()
 
-except Exception as e:
+    selected_item = 0
 
-    #escreve um log com a exceção
-    utils.saveLog(e)
+    # Loop do menu
+    while True:
+        # Desenhar o fundo do menu
+        DISPLAYSURF.fill(WHITE)
 
-    exit
+        item_surface = font.render("Zombie Party", True, YELLOW)
+        item_rect = item_surface.get_rect(center=(DISPLAY[0] // 2, 200))
+        DISPLAYSURF.blit(item_surface, item_rect)
 
+        # Desenhar os itens do menu
+        for index, item in enumerate(menu_items):
+            # Desenhar o item
+            item_surface = menu_font.render(item, True, BLACK)
+            item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, DISPLAY[1] // 2 + index * 50))
+            DISPLAYSURF.blit(item_surface, item_rect)
 
-#Create a white screen
-DISPLAYSURF = pygame.display.set_mode(DISPLAY)
-#DISPLAYSURF.fill(WHITE)
+            # Desenhar um indicador de seleção ao redor do item selecionado
+            if index == selected_item:
+                pygame.draw.rect(DISPLAYSURF, BLACK, item_rect.inflate(20, 20), 3)
 
-pygame.display.set_caption("Zgame")
-P1 = Player("P1", player_img, (50, DISPLAY[1]/2))
-E1 = Enemy((DISPLAY[0], random.randint(5,DISPLAY[1]-25)))
-E2 = Enemy((DISPLAY[0], random.randint(5,DISPLAY[1]-25)))
+        item_surface = font_small.render("Nuno Lopes", True, BLACK)
+        item_rect = item_surface.get_rect(center=(DISPLAY[0]//2, DISPLAY[1] -40))
+        DISPLAYSURF.blit(item_surface, item_rect)
 
-all_sprites = pygame.sprite.Group()
-all_sprites.add(P1)
-all_sprites.add(E1)
-all_sprites.add(E2)
+        item_surface = font_small.render("Karine Florêncio", True, BLACK)
+        item_rect = item_surface.get_rect(center=(DISPLAY[0]//2, DISPLAY[1] -20))
+        DISPLAYSURF.blit(item_surface, item_rect)
 
-enemies = pygame.sprite.Group()
-enemies.add(E1)
-enemies.add(E2)
+        # Atualizar a tela
+        pygame.display.flip()
 
-all_shots = pygame.sprite.Group()
+        # Verificar os eventos do menu
+        for event in pygame.event.get():
+            # Verificar se o usuário fechou a janela
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            # Verificar se o usuário pressionou uma tecla
+            elif event.type == pygame.KEYDOWN:
+                # Verificar se a tecla pressionada foi para cima ou para baixo
+                if event.key == pygame.K_UP:
+                    # Selecionar o item anterior
+                    selected_item = (selected_item - 1) % len(menu_items)
+                elif event.key == pygame.K_DOWN:
+                    # Selecionar o próximo item
+                    selected_item = (selected_item + 1) % len(menu_items)
+                # Verificar se a tecla pressionada foi Enter
+                elif event.key == pygame.K_RETURN:
+                    # Executar a ação do item selecionado
+                    if menu_items[selected_item] == 'Iniciar jogo' or menu_items[selected_item] == 'Recomeçar jogo':
+                        
+                        game()
 
-initGraphics(DISPLAYSURF)
-#pygame.mixer.Sound('background.wav').play(loops=-1)
+                    elif menu_items[selected_item] == 'Continuar jogo':
 
-#Game Loop
-while True:
+                        return
 
-    # DISPLAYSURF.fill(WHITE)
-    #loops through map to set background
-    for y in range(5):
-        for x in range(10):
-            location = (x*background.get_width(), y*background.get_height())
-            DISPLAYSURF.blit(background, location)
-    DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, RED), (10,10))
-    pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3)-30, 0, 2, DISPLAY[1]), 50)
+                    elif menu_items[selected_item] == 'Sair':
+                        pygame.quit()
+                        sys.exit()
 
-    for npc in enemies:
+def final(DS, msg, color, score, all_sprites, all_shots):
 
-        npc.move(DISPLAY, npc_speed)
+    DS.fill(WHITE)
 
-    P1.move(DISPLAY)
-    P1.shoot(DISPLAY, all_shots)
+    item_surface = font.render(msg, True, color)
+
+    item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, DISPLAY[1] // 2))
+
+    DS.blit(item_surface, item_rect)
+
+    item_surface = font_small.render("Pontuação: " + str(score), True, BLUE)
+
+    item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +50))
+
+    DS.blit(item_surface, item_rect)
+
+    for entity in all_sprites:
+
+        entity.kill()
 
     for shot in all_shots:
-        shot.move(DISPLAY, shot_speed)
-        shot.draw(DISPLAYSURF)
 
-    for i in all_sprites:
-        i.draw(DISPLAYSURF)
+        shot.kill()
 
-    for npc in enemies:
-        if npc.getFinal(DISPLAY):
-            gameOver(DISPLAYSURF, all_sprites, all_shots)
-
-
-    #To be kill both sprites if collision occurs between shot and Enemy
-    collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
-
-    if collide:
-
-        P1.incrementScore(score_per_kill)
-
-
-    #Cycles through all events occuring
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-
-    #Update all of the screen for software displays
     pygame.display.flip()
-    # Setting the framerate to 30 fps
-    clock.tick(30)
+
+    time.sleep(2)
+
+    game_menu(['Recomeçar jogo', 'Sair'])
+
+def game():
+
+    try:
+
+        background =  pygame.transform.smoothscale(pygame.image.load("png/grass-hanpaited2.jpg"),(200,200))
+
+    except Exception as e:
+
+        #escreve um log com a exceção
+        utils.saveLog(e)
+
+        exit()
+
+    pygame.display.set_caption("Zombie Party")
+    P1 = Player("P1", player_img, (50, random.randint(0,DISPLAY[1] -55)))
+    E1 = Enemy((DISPLAY[0], random.randint(0,DISPLAY[1])))
+    #E2 = Enemy((DISPLAY[0] + 80, random.randint(0,DISPLAY[1] -55)))
+    E2 = Enemy((DISPLAY[0] + 80, DISPLAY[1] -55))
+
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(P1)
+    all_sprites.add(E1)
+    all_sprites.add(E2)
+
+    enemies = pygame.sprite.Group()
+    enemies.add(E1)
+    enemies.add(E2)
+
+    all_shots = pygame.sprite.Group()
+
+    clock = pygame.time.Clock()
+    
+    while True:
+
+        clock.tick(30)
+
+        for y in range(5):
+
+            for x in range(10):
+
+                location = (x * background.get_width(), y * background.get_height())
+
+                DISPLAYSURF.blit(background, location)
+
+        DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, BLUE), (10,10))
+
+        pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3)-30, 0, 2, DISPLAY[1]), 50)
+
+        for npc in enemies:
+
+            npc.move(DISPLAY, npc_speed)
+
+        P1.move(DISPLAY)
+
+        P1.shoot(DISPLAY, all_shots)
+
+        for shot in all_shots:
+
+            shot.move(DISPLAY, shot_speed)
+
+            shot.draw(DISPLAYSURF)
+
+        for i in all_sprites:
+
+            i.draw(DISPLAYSURF)
+
+        if len(enemies) == 0:
+
+            final(DISPLAYSURF, "Vitória!", GREEN, P1.getScore(), all_sprites, all_shots)
+
+        for npc in enemies:
+
+            if npc.getFinal(DISPLAY):
+
+                final(DISPLAYSURF, "Derrota!", RED, P1.getScore(), all_sprites, all_shots)
+
+        collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
+
+        if collide:
+
+            P1.incrementScore(score_per_kill)
+
+
+        for event in pygame.event.get():
+
+            if event.type == QUIT:
+
+                pygame.quit()
+
+                sys.exit()
+
+        __pressed_keys = pygame.key.get_pressed()
+        if __pressed_keys[K_ESCAPE]:
+
+                game_menu(["Continuar jogo", "Sair"])
+
+        #Update all of the screen for software displays
+        pygame.display.flip()
+        
+
+initGraphics(DISPLAYSURF)
+
+

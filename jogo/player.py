@@ -61,7 +61,7 @@ class Player(entity.Entity):
 
                 super().move((0, -5))
 
-        if self.rect.bottom < (windowSize[1] - 25):
+        if self.rect.bottom < (windowSize[1]):
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
 
