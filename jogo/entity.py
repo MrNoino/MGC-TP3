@@ -32,6 +32,12 @@ class Entity(pygame.sprite.Sprite):
 
         self.rect = self.rect.update(position[0], position[1], size[0], size[1])
 
+    def getPosition(self):
+        return self.rect.center
+
+    def setPosition(self, position, update):
+        self.rect.center = (position[0]-update,position[1])
+
     def move(self, position):
 
         self.rect.move_ip(position[0], position[1])

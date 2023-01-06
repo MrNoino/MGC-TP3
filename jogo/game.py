@@ -198,6 +198,8 @@ def game():
 
     all_shots = pygame.sprite.Group()
 
+    deads = pygame.sprite.Group()
+
     clock = pygame.time.Clock()
     
     while True:
@@ -235,6 +237,10 @@ def game():
         for i in all_sprites:
 
             i.draw(DISPLAYSURF)
+          
+        for i in deads:
+            i.animatedead()
+            i.draw(DISPLAYSURF)
 
         if len(enemies) == 0:
 
@@ -261,7 +267,13 @@ def game():
         collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
 
         if collide:
-
+            item = collide.popitem()
+            shot_at = item[0]
+            at_npc = item[1][0]
+            
+            at_npc.setPosition(at_npc.getPosition())
+            deads.add(at_npc)
+            deads.add(shot_at)
             P1.incrementScore(score_per_kill)
 
 
