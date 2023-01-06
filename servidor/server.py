@@ -61,7 +61,7 @@ class Server:
 
         print("[LOG]", "[" + str(currentID) + "]", name, " se conectou ao servidor.\n")
 
-        self.__players[currentID] = {'name': name}
+        self.__players[currentID] = {'name': name, "score": 0}
 
         connection.send(pickle.dumps(self.__players))
 

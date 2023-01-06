@@ -9,3 +9,5 @@ shot_size = (10, 8)
 shot_speed = 5
 
 npc_speed = 1
+
+score_per_kill = 100

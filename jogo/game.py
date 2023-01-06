@@ -112,7 +112,7 @@ while True:
         for x in range(10):
             location = (x*background.get_width(), y*background.get_height())
             DISPLAYSURF.blit(background, location)
-    DISPLAYSURF.blit(font_small.render("Pontuação", True, RED), (10,10))
+    DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, RED), (10,10))
     pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3)-30, 0, 2, DISPLAY[1]), 50)
 
     for npc in enemies:
@@ -135,7 +135,11 @@ while True:
 
 
     #To be kill both sprites if collision occurs between shot and Enemy
-    pygame.sprite.groupcollide(all_shots, enemies, True ,True)
+    collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
+
+    if collide:
+
+        P1.incrementScore(score_per_kill)
 
 
     #Cycles through all events occuring

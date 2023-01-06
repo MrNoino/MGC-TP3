@@ -6,11 +6,11 @@ from globals import *
 
 class Player(entity.Entity):
 
-    __username = None
-
     def __init__(self, username, image, position):
 
         self.__username = username
+
+        self.__score = 0
 
         super().__init__(image, position)
 
@@ -30,6 +30,13 @@ class Player(entity.Entity):
             if shot.getPosition() > windowSize[0]:
                 all_shots.remove(shot)
 
+    def getScore(self):
+
+        return self.__score
+
+    def incrementScore(self, quantity):
+
+        self.__score += quantity
 
     def move(self, windowSize):
 
