@@ -24,10 +24,12 @@ class Player(entity.Entity):
             if pygame.key.get_pressed()[K_SPACE]:
                 if len(all_shots.sprites()) < 10:
 
-                    all_shots.add(Shot(self.rect.midright))
+                    all_shots.add(Shot((self.rect.midright[0] -10, self.rect.midright[1])))
 
         for shot in all_shots:
+
             if shot.getPosition() > windowSize[0]:
+
                 all_shots.remove(shot)
 
     def getScore(self):
@@ -46,23 +48,23 @@ class Player(entity.Entity):
 
             if __pressed_keys[K_LEFT] or __pressed_keys[K_a]:
 
-                super().move((-5, 0))
+                super().move((-10, 0))
 
         if self.rect.right < int(windowSize[0] / 3):
 
             if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
 
-                super().move((5, 0))
+                super().move((10, 0))
 
 
         if self.rect.top > 0:
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
 
-                super().move((0, -5))
+                super().move((0, -10))
 
         if self.rect.bottom < (windowSize[1]):
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
 
-                super().move((0, 5))
+                super().move((0, 10))
