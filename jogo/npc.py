@@ -76,7 +76,7 @@ class Enemy(entity.Entity):
         super().__init__((self._images[0][0]), position)
             
     def setPosition(self, position):
-        super().setPosition(position, 50)
+        super().setPosition(position, (-50,0))
 
     def getFinal(self, displaySize):
 
