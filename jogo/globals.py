@@ -4,9 +4,15 @@ playerM_size = (100,100)
 
 npcF_size = (90, 100)
 
-npcM_size = (80,90)
+npcM_size = (75,90)
+
+npcF_dead = (118,108)
+
+npcM_dead = (109,91)
 
 shot_size = (10, 8)
+
+shot_dead = (6, 80)
 
 shot_speed = 10
 

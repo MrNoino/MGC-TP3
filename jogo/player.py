@@ -15,6 +15,7 @@ class Player(entity.Entity):
 
         self.__speed_animation = 4
         self.__value = 0
+        self.__value_shoot = 0
 
         try:
 
@@ -60,19 +61,18 @@ class Player(entity.Entity):
 
         return self.__username
 
-    def shoot(self, windowSize, all_shots):
-
-         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
-        if self.__value >= len(self._images[1])*self.__speed_animation:
-            self.__value = 0
-        print(len(self._images[1])*self.__speed_animation)
-        print(int(self.__value/self.__speed_animation))
+    def shoot(self, windowSize, all_shots):        
 
         if pygame.event.wait(10).type == KEYDOWN:
             if pygame.key.get_pressed()[K_SPACE]:
 
-                super().setImage(self._images[1][int(self.__value/self.__speed_animation)])
-                self.__value += 1
+                super().setImage(self._images[1][int(self.__value_shoot/self.__speed_animation)])
+                
+                 # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
+                if self.__value_shoot >= len(self._images[1])*self.__speed_animation:
+                    self.__value_shoot = 0
+                else:
+                    self.__value_shoot += 1
 
 
                 if len(all_shots.sprites()) < 10:
@@ -81,7 +81,7 @@ class Player(entity.Entity):
 
         for shot in all_shots:
 
-            if shot.getPosition() > windowSize[0]:
+            if shot.getPosition()[0] > windowSize[0]:
 
                 all_shots.remove(shot)
 
@@ -96,41 +96,56 @@ class Player(entity.Entity):
     def move(self, windowSize):
         
          # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
-        if self.__value >= len(self._images[0])*self.__speed_animation:
-            self.__value = 0
-        print(len(self._images[0])*self.__speed_animation)
-        print(int(self.__value/self.__speed_animation))
+        # if self.__value >= len(self._images[0])*self.__speed_animation:
+        #     self.__value = 0
+
         __pressed_keys = pygame.key.get_pressed()
 
         if self.rect.left > 0:
 
             if __pressed_keys[K_LEFT] or __pressed_keys[K_a]:
+                if self.__value >= len(self._images[0])*self.__speed_animation:
+                    self.__value = 0
+
+                else:                    
+                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
+                    self.__value += 1
 
                 super().move((-5, 0))
-                super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                self.__value += 1
 
-        if self.rect.right < int(windowSize[0] / 3):
+        if self.rect.right < int(windowSize[0] / 3)+30:
 
             if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
+                if self.__value >= len(self._images[0])*self.__speed_animation:
+                    self.__value = 0
+                else:
+                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
+                    self.__value += 1
 
                 super().move((5, 0))
-                super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                self.__value += 1
+                
 
 
         if self.rect.top > 0:
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
+                if self.__value >= len(self._images[0])*self.__speed_animation:
+                    self.__value = 0
+                else:
+                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])     
+                    self.__value += 1
 
                 super().move((0, -5))
-                super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                self.__value += 1
+                
 
         if self.rect.bottom < (windowSize[1]):
 
             if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
+                if self.__value >= len(self._images[0])*self.__speed_animation:
+                    self.__value = 0
+                else:
+                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
+                    self.__value += 1
 
                 super().move((0, 5))
-                super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                self.__value += 1
+                
