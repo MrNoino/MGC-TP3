@@ -44,7 +44,11 @@ class Enemy(entity.Entity):
 
             return
 
-        super().__init__(self._images['zumbiF'][0], position)
+        rnd = random.randint(0, 1)
+
+        self._images = self._images['zumbiF'] if rnd else self._images['zumbiM']
+
+        super().__init__((self._images[0]), position)
 
 
     def getFinal(self, displaySize):
@@ -55,11 +59,11 @@ class Enemy(entity.Entity):
 
     def move(self, displaySize, velocity):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
-        if self.__value >= len(self._images["zumbiF"])*self.__speed_animation:
+        if self.__value >= len(self._images)*self.__speed_animation:
             self.__value = 0
 
         super().move((-velocity, 0))
-        super().setImage(self._images["zumbiF"][int(self.__value/self.__speed_animation)])
+        super().setImage(self._images[int(self.__value/self.__speed_animation)])
 
         self.__value += 1
 
