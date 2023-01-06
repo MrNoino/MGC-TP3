@@ -10,24 +10,14 @@ pygame.init()
 
 menu_font = pygame.font.Font(None, 50)
 font = pygame.font.SysFont("Verdana", 60)
-font_small = pygame.font.SysFont("Verdana", 20)
+font_small = pygame.font.SysFont("Verdana", 18)
+font_micro = pygame.font.SysFont("Verdana", 10)
 
 DISPLAY = pygame.display.get_desktop_sizes()[0]
 DISPLAY = (DISPLAY[0], DISPLAY[1]-50)
 
 #DISPLAYSURF = pygame.display.set_mode(DISPLAY)
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.RESIZABLE, vsync=1)
-
-try:
-
-    player_img = pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Idle (1).png"), playerF_size)
-
-except Exception as e:
-
-    #escreve um log com a exceção
-    utils.saveLog(e)
-
-    exit(1)
 
 def initGraphics(DS):
     
@@ -41,9 +31,35 @@ def initGraphics(DS):
 
     pygame.display.flip()
 
-    time.sleep(2)
+    time.sleep(1)
 
     game_menu(['Iniciar jogo', 'Sair'])
+
+def graphics(DS, background, point, waves, shots):
+    for y in range(5):
+
+            for x in range(10):
+
+                location = (x * background.get_width(), y * background.get_height())
+
+                DISPLAYSURF.blit(background, location)
+
+    pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
+
+    pygame.draw.rect(DISPLAYSURF, WHITE_GRAY,(0,2, DISPLAY[0], 30),15, border_radius=15)
+
+    DISPLAYSURF.blit(font_micro.render("Pontuação: ", True, GRAY), (30,7))
+
+    DISPLAYSURF.blit(font_small.render( str(point), True, BLACK), (100,7))
+
+    DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80,7))
+
+    DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30,7))
+
+    DISPLAYSURF.blit(font_micro.render("Tiros: ", True, GRAY), (int(DISPLAY[0]/3),7))
+
+    for i in range(shots):
+            DISPLAYSURF.blit(pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_002.png"), (20,16)), (int(DISPLAY[0]/3)+30+20*i,10))
 
 def game_menu(menu_items):
 
@@ -159,7 +175,7 @@ def generateNPCS(waves, interval):
 
     for i in range(numberNPCS):
 
-        Npcs.append(Enemy((DISPLAY[0] + (i-1) * 80, random.randint(40, DISPLAY[1] -55))))
+        Npcs.append(Enemy((DISPLAY[0] + (i+1) * random.randint(60, 80), random.randint(85, DISPLAY[1] -55))))
 
     return Npcs
 
@@ -178,7 +194,7 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1","M", (50, random.randint(0,DISPLAY[1] -55)))
+    P1 = Player("P1","F", (85, random.randint(100,DISPLAY[1] -55)))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
@@ -205,19 +221,7 @@ def game():
 
         clock.tick(30)
 
-        for y in range(5):
-
-            for x in range(10):
-
-                location = (x * background.get_width(), y * background.get_height())
-
-                DISPLAYSURF.blit(background, location)
-
-        DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, BLUE), (10,10))
-
-        DISPLAYSURF.blit(font_small.render("Ordas: " + str(waves), True, RED), (DISPLAY[0] -100,10))
-
-        pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
+        graphics(DISPLAYSURF, background, P1.getScore(), waves, 10-len(all_shots))
 
         for npc in enemies:
 
@@ -267,10 +271,10 @@ def game():
             item = collide.popitem()
             shot_at = item[0]
             at_npc = item[1][0]
-            
             at_npc.setPosition(at_npc.getPosition())
-            deads.add(at_npc)
+            shot_at.setPosition(at_npc.rect.bottomleft)
             deads.add(shot_at)
+            deads.add(at_npc)
             P1.incrementScore(score_per_kill)
 
 

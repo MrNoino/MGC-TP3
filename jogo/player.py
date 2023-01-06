@@ -65,25 +65,24 @@ class Player(entity.Entity):
 
         if pygame.event.wait(10).type == KEYDOWN:
             if pygame.key.get_pressed()[K_SPACE]:
-
-                super().setImage(self._images[1][int(self.__value_shoot/self.__speed_animation)])
-                
-                 # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
+              
+                # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
                 if self.__value_shoot >= len(self._images[1])*self.__speed_animation:
                     self.__value_shoot = 0
                 else:
+                    super().setImage(self._images[1][int(self.__value_shoot/self.__speed_animation)])
                     self.__value_shoot += 1
 
 
                 if len(all_shots.sprites()) < 10:
 
-                    all_shots.add(Shot((self.rect.midright[0] -10, self.rect.midright[1])))
+                    all_shots.add(Shot((self.rect.midright[0] -20, self.rect.midright[1])))
 
         for shot in all_shots:
 
             if shot.getPosition()[0] > windowSize[0]:
 
-                all_shots.remove(shot)
+                all_shots.remove(shot)            
 
     def getScore(self):
 
@@ -126,7 +125,7 @@ class Player(entity.Entity):
                 
 
 
-        if self.rect.top > 0:
+        if self.rect.top > 30:
 
             if __pressed_keys[K_UP] or __pressed_keys[K_w]:
                 if self.__value >= len(self._images[0])*self.__speed_animation:
