@@ -10,8 +10,6 @@ shot_size = (10, 8)
 
 shot_speed = 10
 
-npc_speed = 1
-
 score_per_kill = 100
 
 BLUE  = (0, 0, 255)

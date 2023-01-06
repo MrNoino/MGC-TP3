@@ -77,10 +77,12 @@ class Player(entity.Entity):
 
                 if len(all_shots.sprites()) < 10:
 
-                    all_shots.add(Shot(self.rect.midright))
+                    all_shots.add(Shot((self.rect.midright[0] -10, self.rect.midright[1])))
 
         for shot in all_shots:
+
             if shot.getPosition() > windowSize[0]:
+
                 all_shots.remove(shot)
 
     def getScore(self):

@@ -101,7 +101,7 @@ def game_menu(menu_items):
                     # Selecionar o próximo item
                     selected_item = (selected_item + 1) % len(menu_items)
                 # Verificar se a tecla pressionada foi Enter
-                elif event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN or event.key == pygame.KSCAN_RETURN:
                     # Executar a ação do item selecionado
                     if menu_items[selected_item] == 'Iniciar jogo' or menu_items[selected_item] == 'Recomeçar jogo':
                         
@@ -115,7 +115,7 @@ def game_menu(menu_items):
                         pygame.quit()
                         sys.exit()
 
-def final(DS, msg, color, score, all_sprites, all_shots):
+def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
     DS.fill(WHITE)
 
@@ -128,6 +128,12 @@ def final(DS, msg, color, score, all_sprites, all_shots):
     item_surface = font_small.render("Pontuação: " + str(score), True, BLUE)
 
     item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +50))
+
+    DS.blit(item_surface, item_rect)
+
+    item_surface = font_small.render("Ordas concluídas: " + str(waves), True, BLUE)
+
+    item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +70))
 
     DS.blit(item_surface, item_rect)
 
@@ -145,6 +151,18 @@ def final(DS, msg, color, score, all_sprites, all_shots):
 
     game_menu(['Recomeçar jogo', 'Sair'])
 
+def generateNPCS(waves, interval):
+
+    numberNPCS = waves * random.randint(interval[0], interval[1])
+
+    Npcs = []
+
+    for i in range(numberNPCS):
+
+        Npcs.append(Enemy((DISPLAY[0] + (i-1) * 80, random.randint(40, DISPLAY[1] -55))))
+
+    return Npcs
+
 def game():
 
     try:
@@ -159,19 +177,23 @@ def game():
         exit()
 
     pygame.display.set_caption("Zombie Party")
-    P1 = Player("P1", 'F', (50, random.randint(0,DISPLAY[1] -55)))
-    E1 = Enemy((DISPLAY[0], random.randint(0,DISPLAY[1])))
-    #E2 = Enemy((DISPLAY[0] + 80, random.randint(0,DISPLAY[1] -55)))
-    E2 = Enemy((DISPLAY[0] + 80, DISPLAY[1] -55))
+
+    P1 = Player("P1", player_img, (50, random.randint(0,DISPLAY[1] -55)))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
-    all_sprites.add(E1)
-    all_sprites.add(E2)
+
+    waves = 1
+
+    npc_speed = 1
+
+    npcs = generateNPCS(waves, (2, 5))
+
+    all_sprites.add(npcs)
 
     enemies = pygame.sprite.Group()
-    enemies.add(E1)
-    enemies.add(E2)
+
+    enemies.add(npcs)
 
     all_shots = pygame.sprite.Group()
 
@@ -190,6 +212,8 @@ def game():
                 DISPLAYSURF.blit(background, location)
 
         DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, BLUE), (10,10))
+
+        DISPLAYSURF.blit(font_small.render("Ordas: " + str(waves), True, RED), (DISPLAY[0] -100,10))
 
         pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
 
@@ -213,13 +237,23 @@ def game():
 
         if len(enemies) == 0:
 
-            final(DISPLAYSURF, "Vitória!", GREEN, P1.getScore(), all_sprites, all_shots)
+            waves +=1
+            
+            npc_speed *= 1.50
+            
+            npcs = generateNPCS(waves, (2, 5))
+
+            all_sprites.add(npcs)
+
+            enemies.add(npcs)
+
+            continue
 
         for npc in enemies:
 
             if npc.getFinal(DISPLAY):
 
-                final(DISPLAYSURF, "Derrota!", RED, P1.getScore(), all_sprites, all_shots)
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
 
         collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
 
@@ -241,7 +275,7 @@ def game():
 
                 game_menu(["Continuar jogo", "Sair"])
 
-        #Update all of the screen for software displays
+        
         pygame.display.flip()
         
 
