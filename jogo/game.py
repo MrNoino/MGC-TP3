@@ -20,7 +20,7 @@ DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.RESIZABLE, vsync=1)
 
 try:
 
-    player_img = pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Idle (1).png"), player_size)
+    player_img = pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Idle (1).png"), playerF_size)
 
 except Exception as e:
 
@@ -159,7 +159,7 @@ def game():
         exit()
 
     pygame.display.set_caption("Zombie Party")
-    P1 = Player("P1", player_img, (50, random.randint(0,DISPLAY[1] -55)))
+    P1 = Player("P1", 'F', (50, random.randint(0,DISPLAY[1] -55)))
     E1 = Enemy((DISPLAY[0], random.randint(0,DISPLAY[1])))
     #E2 = Enemy((DISPLAY[0] + 80, random.randint(0,DISPLAY[1] -55)))
     E2 = Enemy((DISPLAY[0] + 80, DISPLAY[1] -55))
@@ -191,7 +191,7 @@ def game():
 
         DISPLAYSURF.blit(font_small.render("Pontuação: " + str(P1.getScore()), True, BLUE), (10,10))
 
-        pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3)-30, 0, 2, DISPLAY[1]), 50)
+        pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
 
         for npc in enemies:
 

@@ -50,6 +50,8 @@ class Enemy(entity.Entity):
 
         super().__init__((self._images[0]), position)
 
+        pygame.Rect.inflate_ip(self.rect, -35, -10)
+
 
     def getFinal(self, displaySize):
 
