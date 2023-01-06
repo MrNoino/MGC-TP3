@@ -5,6 +5,7 @@ from player import Player
 from npc import Enemy
 import utils
 from globals import *
+import asyncio
 
 pygame.init()
 
@@ -178,7 +179,7 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1", player_img, (50, random.randint(0,DISPLAY[1] -55)))
+    P1 = Player("P1", 'F', (50, random.randint(0,DISPLAY[1] -55)))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
@@ -237,9 +238,11 @@ def game():
 
         if len(enemies) == 0:
 
+            pygame.display.update()
+
             waves +=1
             
-            npc_speed *= 1.50
+            npc_speed *= 1.25
             
             npcs = generateNPCS(waves, (2, 5))
 
@@ -276,7 +279,7 @@ def game():
                 game_menu(["Continuar jogo", "Sair"])
 
         
-        pygame.display.flip()
+        pygame.display.update()
         
 
 initGraphics(DISPLAYSURF)

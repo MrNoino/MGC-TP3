@@ -65,8 +65,6 @@ class Player(entity.Entity):
          # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if self.__value >= len(self._images[1])*self.__speed_animation:
             self.__value = 0
-        print(len(self._images[1])*self.__speed_animation)
-        print(int(self.__value/self.__speed_animation))
 
         if pygame.event.wait(10).type == KEYDOWN:
             if pygame.key.get_pressed()[K_SPACE]:
@@ -98,8 +96,6 @@ class Player(entity.Entity):
          # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if self.__value >= len(self._images[0])*self.__speed_animation:
             self.__value = 0
-        print(len(self._images[0])*self.__speed_animation)
-        print(int(self.__value/self.__speed_animation))
         __pressed_keys = pygame.key.get_pressed()
 
         if self.rect.left > 0:
