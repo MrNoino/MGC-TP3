@@ -1,3 +1,6 @@
+from pygame import Color
+
+
 playerF_size = (110, 100)
 
 playerM_size = (100,100)
@@ -12,7 +15,7 @@ npcM_dead = (109,91)
 
 shot_size = (10, 8)
 
-shot_dead = (6, 80)
+shot_dead = (80, 10)
 
 shot_speed = 10
 
@@ -22,11 +25,13 @@ BLUE  = (0, 0, 255)
 
 RED   = (255, 0, 0)
 
-GREEN = (120, 255, 120)
+GREEN = (0, 120, 20)
 
 BLACK = (0, 0, 0)
 
 WHITE = (255, 255, 255)
+
+WHITE_GRAY = (200,200,200)
 
 GRAY = (128, 128, 128)
 
