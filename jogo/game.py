@@ -5,6 +5,7 @@ from player import Player
 from npc import Enemy
 import utils
 from globals import *
+import asyncio
 
 pygame.init()
 
@@ -35,7 +36,7 @@ def initGraphics(DS):
 
     game_menu(['Iniciar jogo', 'Sair'])
 
-def graphics(DS, background, point, waves, shots):
+def graphics(DS, background, score, waves, shots):
     for y in range(5):
 
             for x in range(10):
@@ -46,20 +47,34 @@ def graphics(DS, background, point, waves, shots):
 
     pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
 
-    pygame.draw.rect(DISPLAYSURF, WHITE_GRAY,(0,2, DISPLAY[0], 30),15, border_radius=15)
+    pygame.draw.rect(DISPLAYSURF, WHITE_GRAY,(0, 0, DISPLAY[0], 30),15, border_radius=0)
 
-    DISPLAYSURF.blit(font_micro.render("Pontuação: ", True, GRAY), (30,7))
+    DISPLAYSURF.blit(font_micro.render("Pontuação: ", True, GRAY), (30, 8))
 
-    DISPLAYSURF.blit(font_small.render( str(point), True, BLACK), (100,7))
+    DISPLAYSURF.blit(font_small.render( str(score), True, BLACK), (100, 3))
 
-    DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80,7))
+    DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80, 8))
 
-    DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30,7))
+    DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30, 3))
 
-    DISPLAYSURF.blit(font_micro.render("Tiros: ", True, GRAY), (int(DISPLAY[0]/3),7))
+    DISPLAYSURF.blit(font_micro.render("Tiros: ", True, GRAY), (int(DISPLAY[0]/3), 8))
+
+    try:
+
+        bullet_image = pygame.image.load("png/Objects/Bullet_002.png")
+
+    except Exception as e:
+
+        #escreve um log com a exceção
+        utils.saveLog(e)
+
+        exit()
 
     for i in range(shots):
-            DISPLAYSURF.blit(pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_002.png"), (20,16)), (int(DISPLAY[0]/3)+30+20*i,10))
+
+        DISPLAYSURF.blit(pygame.transform.smoothscale(bullet_image, (20,16)), (int(DISPLAY[0]/3)+30+20*i, 7))
+
+
 
 def game_menu(menu_items):
 
@@ -194,7 +209,7 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1","F", (85, random.randint(100,DISPLAY[1] -55)))
+    P1 = Player("P1", 'F', (50, random.randint(0,DISPLAY[1] -55)))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
@@ -247,9 +262,11 @@ def game():
 
         if len(enemies) == 0:
 
+            pygame.display.update()
+
             waves +=1
             
-            npc_speed *= 1.50
+            npc_speed *= 1.25
             
             npcs = generateNPCS(waves, (2, 5))
 
@@ -292,7 +309,7 @@ def game():
                 game_menu(["Continuar jogo", "Sair"])
 
         
-        pygame.display.flip()
+        pygame.display.update()
         
 
 initGraphics(DISPLAYSURF)
