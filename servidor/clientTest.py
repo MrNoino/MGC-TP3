@@ -7,17 +7,50 @@ port = 5555
 client_socket = socket.socket()
 client_socket.connect((host, port))
 
-message = input("Nome: ")
+name = input("Nome: ")
 
-while message.lower().strip() != 'quit':
+if name.lower().strip() != 'quit':
 
-    client_socket.send(message.encode())
-    data = client_socket.recv(1024)
+    client_socket.send(pickle.dumps(name))
 
-    players = pickle.loads(data)
+else:
 
-    print('Received from server:', players)
+    exit(0)
 
-    message = input(" -> ")
+skin = input("Skin: ")
+
+if skin.lower().strip() != 'quit':
+
+    client_socket.send(pickle.dumps(skin))
+
+else:
+
+    exit(0)
+
+sizeData = client_socket.recv(16)
+
+sizeData = pickle.loads(sizeData)
+
+data = client_socket.recv(sizeData)
+
+data = pickle.loads(data)
+
+print('Received from server:', data)
+
+while True:
+
+    client_socket.send(pickle.dumps({'x': 12, "y": 12}))
+
+    sizeData = client_socket.recv(16)
+
+    sizeData = pickle.loads(sizeData)
+
+    data = client_socket.recv(sizeData)
+
+    data = pickle.loads(data)
+
+    print('Received from server:', data)
+
+    print(len(data["npcs"]))
 
 client_socket.close()

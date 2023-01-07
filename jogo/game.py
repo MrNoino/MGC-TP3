@@ -14,11 +14,12 @@ font = pygame.font.SysFont("Verdana", 60)
 font_small = pygame.font.SysFont("Verdana", 18)
 font_micro = pygame.font.SysFont("Verdana", 10)
 
-DISPLAY = pygame.display.get_desktop_sizes()[0]
-DISPLAY = (DISPLAY[0], DISPLAY[1]-50)
+DISPLAY = (1200, 600)
 
 #DISPLAYSURF = pygame.display.set_mode(DISPLAY)
-DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.RESIZABLE, vsync=1)
+DISPLAYSURF = pygame.display.set_mode(DISPLAY, pygame.NOFRAME, vsync=1)
+# Título da janela do jogo
+pygame.display.set_caption("Menu de jogo")
 
 def initGraphics(DS):
     
@@ -79,9 +80,6 @@ def graphics(DS, background, score, score_per_kill, waves, shots):
 
 
 def game_menu(menu_items):
-
-    # Título da janela do jogo
-    pygame.display.set_caption("Menu de jogo")
 
     pygame.event.clear()
 
