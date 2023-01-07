@@ -1,7 +1,7 @@
 from datetime import datetime
 
 #função para gravar um log com exceções
-def saveLog(text):
+def saveLog(filename, text):
 
     #tenta
     try:
