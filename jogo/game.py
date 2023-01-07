@@ -5,7 +5,7 @@ from player import Player
 from npc import Enemy
 import utils
 from globals import *
-import asyncio
+from _thread import *
 
 pygame.init()
 
@@ -44,8 +44,6 @@ def graphics(DS, background, score, waves, shots):
                 location = (x * background.get_width(), y * background.get_height())
 
                 DISPLAYSURF.blit(background, location)
-
-    pygame.draw.rect(DISPLAYSURF, GREEN, (int(DISPLAY[0]/3), 0, 2, DISPLAY[1]), 50)
 
     pygame.draw.rect(DISPLAYSURF, WHITE_GRAY,(0, 0, DISPLAY[0], 30),15, border_radius=0)
 
@@ -182,17 +180,21 @@ def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
     game_menu(['Recomeçar jogo', 'Sair'])
 
+
+aux_npcs = None
+
 def generateNPCS(waves, interval):
 
     numberNPCS = waves * random.randint(interval[0], interval[1])
 
-    Npcs = []
+    global aux_npcs
+    npcs = []
 
     for i in range(numberNPCS):
 
-        Npcs.append(Enemy((DISPLAY[0] + (i+1) * random.randint(60, 80), random.randint(85, DISPLAY[1] -55))))
+        npcs.append(Enemy((DISPLAY[0] + (i+1) * random.randint(60, 80), random.randint(80, DISPLAY[1] -55))))
 
-    return Npcs
+    aux_npcs = npcs
 
 def game():
 
@@ -209,7 +211,10 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1", 'F', (50, random.randint(0,DISPLAY[1] -55)))
+    P1 = Player("P1", 'F', (50, random.randint(80,DISPLAY[1] -55)))
+
+    players = pygame.sprite.Group()
+    players.add(P1)
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
@@ -218,7 +223,13 @@ def game():
 
     npc_speed = 1
 
-    npcs = generateNPCS(waves, (2, 5))
+    generateNPCS(waves, (2, 5))
+
+    global aux_npcs
+
+    npcs = aux_npcs
+
+    aux_npcs = None
 
     all_sprites.add(npcs)
 
@@ -231,6 +242,8 @@ def game():
     deads = pygame.sprite.Group()
 
     clock = pygame.time.Clock()
+
+    thread = False
     
     while True:
 
@@ -264,15 +277,27 @@ def game():
 
             pygame.display.update()
 
-            waves +=1
-            
-            npc_speed *= 1.25
-            
-            npcs = generateNPCS(waves, (2, 5))
+            if not thread:
 
-            all_sprites.add(npcs)
+                waves +=1
+            
+                npc_speed *= 1.25
 
-            enemies.add(npcs)
+                start_new_thread(generateNPCS, (waves, (2, 5)))
+
+                thread = True
+            
+            if aux_npcs:
+
+                npcs = aux_npcs
+
+                all_sprites.add(npcs)
+
+                enemies.add(npcs)
+
+                aux_npcs = None
+
+                thread = False
 
             continue
 
@@ -282,10 +307,16 @@ def game():
 
                 final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
 
-        collide = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
+        collide = pygame.sprite.groupcollide(players, enemies, True ,True)
 
         if collide:
-            item = collide.popitem()
+
+            final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+
+        shotZumbi = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
+
+        if shotZumbi:
+            item = shotZumbi.popitem()
             shot_at = item[0]
             at_npc = item[1][0]
             at_npc.setPosition(at_npc.getPosition())

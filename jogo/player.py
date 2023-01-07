@@ -109,7 +109,7 @@ class Player(entity.Entity):
 
                 super().move((-5, 0))
 
-        if self.rect.right < int(windowSize[0] / 3)+30:
+        if self.rect.right < int(windowSize[0]):
 
             if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
                 if self.__value >= len(self._images[0])*self.__speed_animation:
