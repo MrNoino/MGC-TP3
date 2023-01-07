@@ -80,7 +80,7 @@ class Enemy(entity.Entity):
 
     def getFinal(self, displaySize):
 
-        if self.rect.left <= int(displaySize[0]/3):
+        if self.rect.left <= 0:
             return True
 
 
