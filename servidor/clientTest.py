@@ -18,6 +18,12 @@ while message.lower().strip() != 'quit':
 
     print('Received from server:', players)
 
+    data = client_socket.recv(1024)
+
+    npcs = pickle.loads(data)
+
+    print('Received from server:', npcs)
+
     message = input(" -> ")
 
 client_socket.close()

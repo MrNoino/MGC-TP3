@@ -2,6 +2,7 @@ import socket
 from _thread import *
 import pickle
 import utils
+import random
 
 class Server:
 
@@ -10,6 +11,10 @@ class Server:
         self.__players = {}
         self.__connections = 0
         self.__playerID = 0
+
+        self.__npcs = []
+        self.__waves = 1
+        self.__display = (1200, 800)
 
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__server = socket.gethostbyname(socket.gethostname())
@@ -51,6 +56,20 @@ class Server:
 
         return self.__connections
 
+    def getNPCS(self):
+
+        return self.__npcs
+
+    def generateNPCS(self, interval):
+
+        self.__npcs = []
+
+        numberNPCS = self.__waves * random.randint(interval[0], interval[1])
+
+        for i in range(numberNPCS):
+
+            self.__npcs.append({"x": random.randint(self.__display[0] + (i+1) * random.randint(60, 80)), "y": random.randint(80, self.__display[1] -55)})
+
     def setupClient(self, connection):
 
         data = connection.recv(16)
@@ -77,7 +96,13 @@ class Server:
                 data = data.decode("utf-8")
                 print("[DATA] Recebido do cliente", "[" + str(currentID) + "]", name, ": \"" + data + "\"\n")
 
-                connection.send(pickle.dumps(self.__players))
+                self.generateNPCS(2, 5)
+
+                data = {"players": self.__players, "npcs": self.__npcs}
+
+                connection.send(pickle.dumps(data))
+
+                print(data)
 
             except WindowsError as e:
 
