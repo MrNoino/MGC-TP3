@@ -62,3 +62,5 @@ class Shot(entity.Entity):
         else:
             
             self.kill()
+        
+        return False

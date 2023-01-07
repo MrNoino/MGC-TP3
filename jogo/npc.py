@@ -11,7 +11,7 @@ class Enemy(entity.Entity):
     
     def __init__(self, position):
 
-        self.__speed_animation = 2
+        self.__speed_animation = 4
         self.__value = 0
         self.__value_dead = 0
 
@@ -111,6 +111,7 @@ class Enemy(entity.Entity):
             
             self.kill()
         
-
+        return False
+        
         
 
