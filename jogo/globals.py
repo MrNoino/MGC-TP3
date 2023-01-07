@@ -1,9 +1,13 @@
 from pygame import Color
 
 
-playerF_size = (110, 100)
+playerF_size = (110, 93)
 
-playerM_size = (100,100)
+playerM_size = (100,98)
+
+playerF_dead = (104, 104)
+
+playerM_dead = (99,92)
 
 npcF_size = (90, 100)
 

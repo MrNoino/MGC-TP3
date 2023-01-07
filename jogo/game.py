@@ -6,6 +6,7 @@ from npc import Enemy
 import utils
 from globals import *
 from _thread import *
+from cliente import Network
 
 pygame.init()
 
@@ -76,8 +77,6 @@ def graphics(DS, background, score, score_per_kill, waves, shots):
     for i in range(shots):
 
         DISPLAYSURF.blit(pygame.transform.smoothscale(bullet_image, (20,16)), (int(DISPLAY[0]/2)+30+20*i, 7))
-
-
 
 def game_menu(menu_items):
 
@@ -178,7 +177,7 @@ def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
     pygame.display.flip()
 
-    time.sleep(2)
+    time.sleep(5)
 
     game_menu(['Recomeçar jogo', 'Sair'])
 
@@ -276,8 +275,12 @@ def game():
             i.draw(DISPLAYSURF)
           
         for i in deads:
-            i.animatedead()
+            final_p = i.animatedead()
             i.draw(DISPLAYSURF)
+
+            if final_p:
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+
 
         if len(enemies) == 0:
 
@@ -315,12 +318,18 @@ def game():
 
                 final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
 
-        collide = pygame.sprite.groupcollide(players, enemies, True ,True)
+        collide = pygame.sprite.groupcollide(players, enemies, True , True)
 
         if collide:
+            item = collide.popitem()
+            player = item[0]
+            enemy = item[1][0]
+            enemy.setPosition(enemy.getPosition())
+            player.notMove()
+            deads.add(player)
+            deads.add(enemy)
 
-            final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
-
+           
         shotZumbi = pygame.sprite.groupcollide(all_shots, enemies, True ,True)
 
         if shotZumbi:
@@ -351,6 +360,34 @@ def game():
         pygame.display.update()
         
 
+
+# while True:
+
+#     name = input("Please enter your name: ")
+
+#     if  0 < len(name) < 35:
+#         break
+#     else:
+#         print("Erro: Quantidade de caracteres inaceitável.")
+
+# while(True):
+#     # print("'C' - Comboy or 'R' - Robot")
+#     skin = input("'C' - Cowboy or 'R' - Robot\nEscolha sua skin: ")
+
+#     if skin in ['R','C','r','c']:
+#         break
+#     else:
+#         print("Erro: Valor inválido.")
+
+# if skin in ['R','r']:
+#     skin = 'M'
+# else:
+#     skin = 'F'
+
+# connection_server = Network()
+# current_id = connection_server.connect(name,skin)
+# info_game = connection_server.send("get")
+
+# alterar dados do game com ^^^^^^
+
 initGraphics(DISPLAYSURF)
-
-

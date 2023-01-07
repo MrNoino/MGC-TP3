@@ -12,10 +12,13 @@ class Player(entity.Entity):
         self.__username = username
 
         self.__score = 0
+        
+        self.__moving = True
 
         self.__speed_animation = 4
         self.__value = 0
         self.__value_shoot = 0
+        self.__value_dead = 0
 
         try:
 
@@ -27,7 +30,19 @@ class Player(entity.Entity):
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (6).png"), playerF_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (7).png"), playerF_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (8).png"), playerF_size)]
-                            ,   [pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Shoot (1).png"), playerF_size)]]
+                            ,  [pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Shoot (1).png"), playerF_size)]
+                        	,  [pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (2).png"), playerF_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (3).png"), playerF_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (4).png"), playerF_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (5).png"), playerF_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (1).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (2).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (3).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (4).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (5).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (6).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (7).png"), playerF_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (10).png"), playerF_dead)]]
                         	,"M": [[pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (1).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (2).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (3).png"), playerM_size),
@@ -36,7 +51,7 @@ class Player(entity.Entity):
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (6).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (7).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (8).png"), playerM_size)]
-                        	,   [pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (1).png"), playerM_size),
+                        	,  [pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (1).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (2).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (3).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (4).png"), playerM_size),
@@ -44,7 +59,19 @@ class Player(entity.Entity):
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (6).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (7).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (8).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (9).png"), playerM_size)]]}
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (9).png"), playerM_size)]
+                        	,  [pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (2).png"), playerM_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (3).png"), playerM_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (4).png"), playerM_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (5).png"), playerM_size),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (1).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (2).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (3).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (4).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (5).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (6).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (7).png"), playerM_dead),
+                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (10).png"), playerM_dead)]]}
 
         except Exception as e:
 
@@ -92,56 +119,73 @@ class Player(entity.Entity):
     def incrementScore(self, quantity):
 
         self.__score += quantity
+    
+    def notMove(self):
+        self.__moving = False
 
     def move(self, windowSize):
         
-        __pressed_keys = pygame.key.get_pressed()
+        if self.__moving:
 
-        if self.rect.left > 0:
+            __pressed_keys = pygame.key.get_pressed()
 
-            if __pressed_keys[K_LEFT] or __pressed_keys[K_a]:
-                if self.__value >= len(self._images[0])*self.__speed_animation:
-                    self.__value = 0
+            if self.rect.left > 0:
 
-                else:                    
-                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                    self.__value += 1
+                if __pressed_keys[K_LEFT] or __pressed_keys[K_a]:
+                    if self.__value >= len(self._images[0])*self.__speed_animation:
+                        self.__value = 0
 
-                super().move((-5, 0))
+                    else:                    
+                        super().setImage(pygame.transform.flip(self._images[0][int(self.__value/self.__speed_animation)],True,False))
+                        self.__value += 1
 
-        if self.rect.right < int(windowSize[0]):
+                    super().move((-5, 0))
 
-            if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
-                if self.__value >= len(self._images[0])*self.__speed_animation:
-                    self.__value = 0
-                else:
-                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                    self.__value += 1
+            if self.rect.right < int(windowSize[0]):
 
-                super().move((5, 0))
+                if __pressed_keys[K_RIGHT] or __pressed_keys[K_d]:
+                    if self.__value >= len(self._images[0])*self.__speed_animation:
+                        self.__value = 0
+                    else:
+                        super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
+                        self.__value += 1
+
+                    super().move((5, 0))
+                    
+
+
+            if self.rect.top > 30:
+
+                if __pressed_keys[K_UP] or __pressed_keys[K_w]:
+                    if self.__value >= len(self._images[0])*self.__speed_animation:
+                        self.__value = 0
+                    else:
+                        super().setImage(self._images[0][int(self.__value/self.__speed_animation)])     
+                        self.__value += 1
+
+                    super().move((0, -5))
+                    
+
+            if self.rect.bottom < (windowSize[1]):
+
+                if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
+                    if self.__value >= len(self._images[0])*self.__speed_animation:
+                        self.__value = 0
+                    else:
+                        super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
+                        self.__value += 1
+
+                    super().move((0, 5))
                 
+    def animatedead(self):
 
+        if len(self._images[2])*self.__speed_animation > self.__value_dead:
 
-        if self.rect.top > 30:
+            super().setImage(self._images[2][int(self.__value_dead/self.__speed_animation)])
 
-            if __pressed_keys[K_UP] or __pressed_keys[K_w]:
-                if self.__value >= len(self._images[0])*self.__speed_animation:
-                    self.__value = 0
-                else:
-                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])     
-                    self.__value += 1
+            self.__value_dead += 1
 
-                super().move((0, -5))
-                
+            return False
 
-        if self.rect.bottom < (windowSize[1]):
-
-            if __pressed_keys[K_DOWN] or __pressed_keys[K_s]:
-                if self.__value >= len(self._images[0])*self.__speed_animation:
-                    self.__value = 0
-                else:
-                    super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
-                    self.__value += 1
-
-                super().move((0, 5))
-                
+        else:
+            return True
