@@ -36,7 +36,7 @@ def initGraphics(DS):
 
     game_menu(['Iniciar jogo', 'Sair'])
 
-def graphics(DS, background, score, waves, shots):
+def graphics(DS, background, score, score_per_kill, waves, shots):
     for y in range(5):
 
             for x in range(10):
@@ -49,13 +49,17 @@ def graphics(DS, background, score, waves, shots):
 
     DISPLAYSURF.blit(font_micro.render("Pontuação: ", True, GRAY), (30, 8))
 
-    DISPLAYSURF.blit(font_small.render( str(score), True, BLACK), (100, 3))
+    DISPLAYSURF.blit(font_small.render(str(score), True, BLACK), (100, 3))
+
+    DISPLAYSURF.blit(font_micro.render("Pontos por morte: ", True, GRAY), ((DISPLAY[0] // 3) -100, 8))
+
+    DISPLAYSURF.blit(font_small.render(str(score_per_kill), True, BLACK), ((DISPLAY[0]/3), 3))
 
     DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80, 8))
 
     DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30, 3))
 
-    DISPLAYSURF.blit(font_micro.render("Tiros: ", True, GRAY), (int(DISPLAY[0]/3), 8))
+    DISPLAYSURF.blit(font_micro.render("Tiros: ", True, GRAY), (int(DISPLAY[0]/2), 8))
 
     try:
 
@@ -70,7 +74,7 @@ def graphics(DS, background, score, waves, shots):
 
     for i in range(shots):
 
-        DISPLAYSURF.blit(pygame.transform.smoothscale(bullet_image, (20,16)), (int(DISPLAY[0]/3)+30+20*i, 7))
+        DISPLAYSURF.blit(pygame.transform.smoothscale(bullet_image, (20,16)), (int(DISPLAY[0]/2)+30+20*i, 7))
 
 
 
@@ -223,6 +227,8 @@ def game():
 
     npc_speed = 1
 
+    score_per_kill = 50
+
     generateNPCS(waves, (2, 5))
 
     global aux_npcs
@@ -244,12 +250,14 @@ def game():
     clock = pygame.time.Clock()
 
     thread = False
+
+    shotZumbi = None
     
     while True:
 
         clock.tick(30)
 
-        graphics(DISPLAYSURF, background, P1.getScore(), waves, 10-len(all_shots))
+        graphics(DISPLAYSURF, background, P1.getScore(), score_per_kill, waves, 10-len(all_shots))
 
         for npc in enemies:
 
@@ -282,6 +290,8 @@ def game():
                 waves +=1
             
                 npc_speed *= 1.25
+
+                score_per_kill *= 2
 
                 start_new_thread(generateNPCS, (waves, (2, 5)))
 

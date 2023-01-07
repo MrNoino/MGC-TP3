@@ -19,8 +19,6 @@ shot_dead = (80, 10)
 
 shot_speed = 10
 
-score_per_kill = 100
-
 BLUE  = (0, 0, 255)
 
 RED   = (255, 0, 0)
