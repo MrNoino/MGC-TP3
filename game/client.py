@@ -1,6 +1,7 @@
 import socket
 import pickle
 import utils
+import time
 
 class Network:
 
@@ -18,6 +19,8 @@ class Network:
             self.__client.connect(self.__addr)
 
             reply = self.recv()
+
+            time.sleep(0.5)
 
             if reply['code'] == 200:
 
@@ -43,6 +46,8 @@ class Network:
 
             self.__client.send(pickle.dumps(data.__sizeof__()))
 
+            time.sleep(0.5)
+
             self.__client.send(data)
             
             return True
@@ -58,6 +63,8 @@ class Network:
         try:
 
             dataSize = pickle.loads(self.__client.recv(16))
+
+            time.sleep(0.5)
 
             data = pickle.loads(self.__client.recv(dataSize))
 

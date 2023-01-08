@@ -18,20 +18,24 @@ if playerName.lower().strip() == 'sair':
 
 playerSkin = input("\nEscolha um personagem (R-Robot, C-Cowboy): ")
 
-while playerSkin.lower().strip() != 'r' and playerSkin.lower().strip() != 'c':
+playerSkin = playerSkin.upper().strip()
 
-    if playerSkin.lower().strip() == 'sair':
+while playerSkin != 'R' and playerSkin != 'C':
+
+    if playerSkin == 'SAIR':
 
         exit()
 
     print('\nEscolha inválida, tente novamente.\n')
     playerSkin = input("Escolha um personagem (R-Robot, C-Cowboy): ")
+    playerSkin = playerSkin.upper().strip()
 
 host = input('\nIntroduza o endereço do servidor (d - por defeito): ')
 
 port = input('\nIntroduza a porta do servidor (d - por defeito): ')
 
 client = Network((socket.gethostname() if host.lower().strip() == 'd' else host), (5555 if port.lower().strip() == 'd' else port))
+
 feedback = client.connect(playerName, playerSkin)
 
 playerID = client.recv()
@@ -56,12 +60,11 @@ font_micro = pygame.font.SysFont("Verdana", 10)
 
 DISPLAY = (1200, 600)
 
-#DISPLAYSURF = pygame.display.set_mode(DISPLAY)
 DISPLAYSURF = pygame.display.set_mode(DISPLAY, vsync=1)
-# Título da janela do jogo
+
 pygame.display.set_caption("Menu de jogo")
 
-def initGraphics(DS):
+def initGame(DS):
     
     DS.fill(WHITE)
 
@@ -77,7 +80,7 @@ def initGraphics(DS):
 
     game_menu(['Iniciar jogo', 'Sair'])
 
-def graphics(DS, background, score, score_per_kill, waves, shots):
+def displayBackground(DS, background, score, score_per_kill, waves, shots):
     for y in range(5):
 
             for x in range(10):
@@ -220,7 +223,6 @@ def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
     game_menu(['Recomeçar jogo', 'Sair'])
 
-
 aux_npcs = None
 
 def generateNPCS(serverNPCS):
@@ -295,7 +297,7 @@ def game():
 
         clock.tick(30)
 
-        graphics(DISPLAYSURF, background, P1.getScore(), info_game['game_info']['score_per_kill'], info_game['game_info']['waves'], 10-len(all_shots))
+        displayBackground(DISPLAYSURF, background, P1.getScore(), info_game['game_info']['score_per_kill'], info_game['game_info']['waves'], 10-len(all_shots))
 
         for npc in enemies:
 
@@ -400,6 +402,6 @@ def game():
 
         pygame.display.update()
 
-initGraphics(DISPLAYSURF)
+initGame(DISPLAYSURF)
 
 client.close()
