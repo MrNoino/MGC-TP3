@@ -1,6 +1,4 @@
 import pygame
-from pygame.locals import *
-import random, time
 import entity
 import utils
 from globals import *

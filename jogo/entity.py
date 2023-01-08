@@ -42,30 +42,3 @@ class Entity(pygame.sprite.Sprite):
 
         surface.blit(self._image, self.rect)
 
-    def reset(self, side, position):
-
-        if side == 'Top':
-
-            self.rect.top = 0
-
-        elif side == 'Bottom':
-
-            self.rect.bottom = 0
-
-        elif side == 'Left':
-
-            self.rect.left = 0
-
-        elif side == 'Right':
-
-            self.rect.right = 0
-
-        elif side == 'Z':
-            self.rect.midleft = position
-        else:
-
-            return False
-
-        self.rect.center = position
-
-        return True

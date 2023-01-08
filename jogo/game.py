@@ -299,7 +299,12 @@ def game():
 
         for npc in enemies:
 
+            if npc.getFinal():
+
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+
             npc.move(DISPLAY, info_game['game_info']['npc_speed'])
+
 
         P1.move(DISPLAY)
 
