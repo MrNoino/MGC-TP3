@@ -6,6 +6,13 @@ from npc import Enemy
 import utils
 from globals import *
 from _thread import *
+import pickle
+
+playerName = input("\nNome: ")
+
+if playerName.lower().strip() == 'sair':
+
+    exit()
 
 playerSkin = input("\nEscolha um personagem (R-Robot, C-Cowboy): ")
 
@@ -111,11 +118,6 @@ def gameMenu(menu_items):
                     # Selecionar o próximo item
                     selected_item = (selected_item + 1) % len(menu_items)
 
-                elif event.key == pygame.K_ESCAPE:
-
-                    menuMusic.stop()
-                    return
-
                 # Verificar se a tecla pressionada foi Enter
                 elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 
@@ -168,7 +170,7 @@ def displayBackground(DS, background, score, score_per_kill, waves, shots):
 
     DISPLAYSURF.blit(font_small.render(str(score_per_kill), True, BLACK), ((DISPLAY[0]/3), 3))
 
-    DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80, 8))
+    DISPLAYSURF.blit(font_micro.render("Hordas: ", True, GRAY), (DISPLAY[0]-80, 8))
 
     DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30, 3))
 
@@ -188,6 +190,16 @@ def displayBackground(DS, background, score, score_per_kill, waves, shots):
     for i in range(shots):
 
         DISPLAYSURF.blit(pygame.transform.smoothscale(bullet_image, (20,16)), (int(DISPLAY[0]/2)+30+20*i, 7))
+
+def createChannels(quantity):
+
+    channels = []
+
+    for i in range(quantity):
+
+        channels.append(pygame.mixer.Channel(i))
+
+    return channels
 
 def operateSounds(channels, operation = 'stop'):
 
@@ -209,17 +221,73 @@ def operateSounds(channels, operation = 'stop'):
 
             channel.unpause()
 
+def setVolumeSound(channels, volume):
+
+    for channel in channels:
+
+        channel.set_volume(volume)
+
+def saveScore(name, score):
+
+    try:
+
+        f = open('players.dat', "ab")
+
+        f.close()
+
+        f = open('players.dat', "rb")
+
+        data = {}
+
+        if f.read():
+
+            f.seek(0)
+
+            data = pickle.load(f)
+
+        else:
+
+            data[name] = {'highestScore': score}
+
+        f.close()
+
+        if name in data and data[name]['highestScore'] < score:
+
+            data[name]['highestScore'] = score
+
+        elif name not in data:
+
+            data[name] = {'highestScore': score}
+
+        score = data[name]['highestScore']
+
+        f = open('players.dat', "wb")
+
+        pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+
+        f.close()
+
+        return score
+
+    except Exception as e: 
+
+        utils.saveLog(e)
+
+        return False
+
 def game():
 
     gameMusic = pygame.mixer.Sound("sounds/gameMusic.ogg")
 
-    channels = []
+    shotSound = pygame.mixer.Sound("sounds/shot.wav")
 
-    channels.append(pygame.mixer.Channel(0))
+    zombiesSound = pygame.mixer.Sound("sounds/zombies.mp3")
 
-    channels[0].set_volume(0.05)
+    deathSound = pygame.mixer.Sound("sounds/death.mp3")
 
-    #zumbiSound = pygame.mixer.Sound("")
+    channels = createChannels(4)
+
+    setVolumeSound(channels, 0.05)
 
     try:
 
@@ -234,7 +302,7 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1", playerSkin, (50, random.randint(80, DISPLAY[1] -55)))
+    P1 = Player(playerName, playerSkin, (50, random.randint(80, DISPLAY[1] -55)))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(P1)
@@ -270,8 +338,6 @@ def game():
 
     thread = False
 
-    shotZumbi = None
-
     channels[0].play(gameMusic, loops= -1)
     
     while True:
@@ -280,13 +346,26 @@ def game():
 
         displayBackground(DISPLAYSURF, background, P1.getScore(), score_per_kill, waves, 10-len(all_shots))
 
+        if not channels[2].get_busy() and len(npcs) > 0:
+
+            channels[2].play(zombiesSound, loops= -1)
+
         for npc in enemies:
 
             npc.move(npc_speed)
 
+            if npc.getFinal():
+
+                operateSounds(channels, 'stop')
+                gameOver(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+
+            
+
         P1.move(DISPLAY)
 
-        P1.shoot(DISPLAY, all_shots)
+        if P1.shoot(DISPLAY, all_shots):
+
+            channels[1].play(shotSound)
 
         for shot in all_shots:
 
@@ -305,9 +384,11 @@ def game():
             if final_p:
 
                 operateSounds(channels, 'stop')
-                gameOver(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves, all_sprites, all_shots)
+                gameOver(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
 
         if len(enemies) == 0:
+
+            channels[2].stop()
 
             pygame.display.update()
 
@@ -337,17 +418,11 @@ def game():
 
             continue
 
-        for npc in enemies:
-
-            if npc.getFinal():
-
-                operateSounds(channels, 'stop')
-                gameOver(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
-
         collide = pygame.sprite.groupcollide(players, enemies, True ,True)
 
         if collide:
 
+            channels[3].play(deathSound)
             item = collide.popitem()
             player = item[0]
             enemy = item[1][0]
@@ -392,6 +467,8 @@ def gameOver(DS, msg, color, score, waves, all_sprites, all_shots):
 
     gameOverSound = pygame.mixer.Sound("sounds/gameOver.wav")
 
+    highestScore = saveScore(playerName, score)
+
     gameOverSound.set_volume(0.05)
 
     gameOverSound.play()
@@ -404,15 +481,21 @@ def gameOver(DS, msg, color, score, waves, all_sprites, all_shots):
 
     DS.blit(item_surface, item_rect)
 
-    item_surface = font_small.render("Pontuação: " + str(score), True, BLUE)
+    item_surface = font_small.render("Melhor pontuação: " + str(highestScore), True, BLUE)
 
     item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +50))
 
     DS.blit(item_surface, item_rect)
 
-    item_surface = font_small.render("Ordas concluídas: " + str(waves), True, BLUE)
+    item_surface = font_small.render("Pontuação: " + str(score), True, BLUE)
 
     item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +70))
+
+    DS.blit(item_surface, item_rect)
+
+    item_surface = font_small.render("Hordas concluídas: " + str(waves), True, BLUE)
+
+    item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +90))
 
     DS.blit(item_surface, item_rect)
 
@@ -426,7 +509,7 @@ def gameOver(DS, msg, color, score, waves, all_sprites, all_shots):
 
     pygame.display.flip()
 
-    time.sleep(2)
+    time.sleep(3)
 
     gameMenu(['Recomeçar jogo', 'Sair'])
       

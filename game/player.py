@@ -92,6 +92,7 @@ class Player(entity.Entity):
 
     def shoot(self, windowSize, all_shots):
         
+        hasShoot = False
 
         if pygame.event.wait(10).type == KEYDOWN:
             if pygame.key.get_pressed()[K_SPACE]:
@@ -108,11 +109,15 @@ class Player(entity.Entity):
 
                     all_shots.add(Shot((self.rect.midright[0] -20, self.rect.midright[1])))
 
+                    hasShoot = True 
+
         for shot in all_shots:
 
             if shot.getPosition()[0] > windowSize[0]:
 
-                all_shots.remove(shot)            
+                all_shots.remove(shot)  
+
+        return hasShoot          
 
     def getScore(self):
 
