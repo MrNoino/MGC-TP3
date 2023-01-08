@@ -3,8 +3,7 @@ import entity
 import utils
 from globals import *
 
-class Shot(entity.Entity):
-    # Atributes    
+class Shot(entity.Entity):   
     
     def __init__(self, position):
 
@@ -14,16 +13,16 @@ class Shot(entity.Entity):
 
         try:
 
-            self.__img = [pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_000.png"), shot_size),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_001.png"), shot_size),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_002.png"), shot_size),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_003.png"), shot_size),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Bullet_004.png"), shot_size)]
-            self.__img_dead = [pygame.transform.smoothscale(pygame.image.load("png/Objects/Muzzle_000.png"), shot_dead),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Muzzle_001.png"), shot_dead),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Muzzle_002.png"), shot_dead),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Muzzle_003.png"), shot_dead),
-                        pygame.transform.smoothscale(pygame.image.load("png/Objects/Muzzle_004.png"), shot_dead)]
+            self.__img = [pygame.transform.smoothscale(pygame.image.load("images/Objects/Bullet_000.png"), SHOT_SIZE),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Bullet_001.png"), SHOT_SIZE),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Bullet_002.png"), SHOT_SIZE),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Bullet_003.png"), SHOT_SIZE),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Bullet_004.png"), SHOT_SIZE)]
+            self.__img_dead = [pygame.transform.smoothscale(pygame.image.load("images/Objects/Muzzle_000.png"), SHOT_DEAD),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Muzzle_001.png"), SHOT_DEAD),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Muzzle_002.png"), SHOT_DEAD),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Muzzle_003.png"), SHOT_DEAD),
+                        pygame.transform.smoothscale(pygame.image.load("images/Objects/Muzzle_004.png"), SHOT_DEAD)]
 
         except Exception as e:
 
@@ -33,12 +32,11 @@ class Shot(entity.Entity):
             return
 
         super().__init__(self.__img[0], position)
-        rect = super().getRect()
 
     def setPosition(self, position):
         super().setPosition(position, (30,-10))
 
-    def move(self, displaySize, velocity):
+    def move(self, velocity):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if self.__value >= len(self.__img)*self.__speed_animation:
             self.__value = 0
@@ -47,9 +45,8 @@ class Shot(entity.Entity):
             self.__value += 1
 
         super().move((velocity, 0))
-        
 
-    def animatedead(self):
+    def animateDead(self):
         
         if len(self.__img_dead)*self.__speed_animation > self.__value_dead:
 
