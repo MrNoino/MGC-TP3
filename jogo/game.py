@@ -301,7 +301,7 @@ def game():
 
             if npc.getFinal():
 
-                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), info_game['game_info']['waves'], all_sprites, all_shots)
 
             npc.move(DISPLAY, info_game['game_info']['npc_speed'])
 
