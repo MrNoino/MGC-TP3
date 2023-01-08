@@ -22,7 +22,7 @@ class Player(entity.Entity):
 
         try:
 
-            self._images = {"F": [[pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (1).png"), playerF_size),
+            self._images = {"C": [[pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (1).png"), playerF_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (2).png"), playerF_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (3).png"), playerF_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (4).png"), playerF_size),
@@ -43,7 +43,7 @@ class Player(entity.Entity):
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (6).png"), playerF_dead),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (7).png"), playerF_dead),
                                 pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (10).png"), playerF_dead)]]
-                        	,"M": [[pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (1).png"), playerM_size),
+                        	,"R": [[pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (1).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (2).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (3).png"), playerM_size),
                                 pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (4).png"), playerM_size),

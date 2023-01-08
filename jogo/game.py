@@ -1,12 +1,51 @@
 import pygame, sys
 from pygame.locals import *
-import random, time
+import time
 from player import Player
 from npc import Enemy
 import utils
 from globals import *
 from _thread import *
-from cliente import Network
+from client import Network
+import pickle
+import socket
+
+playerName = input("\nNome: ")
+
+if playerName.lower().strip() == 'sair':
+
+    exit()
+
+playerSkin = input("\nEscolha um personagem (R-Robot, C-Cowboy): ")
+
+while playerSkin.lower().strip() != 'r' and playerSkin.lower().strip() != 'c':
+
+    if playerSkin.lower().strip() == 'sair':
+
+        exit()
+
+    print('\nEscolha inválida, tente novamente.\n')
+    playerSkin = input("Escolha um personagem (R-Robot, C-Cowboy): ")
+
+host = input('\nIntroduza o endereço do servidor (d - por defeito): ')
+
+port = input('\nIntroduza a porta do servidor (d - por defeito): ')
+
+client = Network((socket.gethostname() if host.lower().strip() == 'd' else host), (5555 if port.lower().strip() == 'd' else port))
+feedback = client.connect(playerName, playerSkin)
+
+playerID = client.recv()
+
+if not feedback:
+
+    print('\nImpossível conectar ao servidor')
+    exit()
+
+print('\n' + feedback['msg'])
+
+if feedback['code'] != 200:
+
+    exit()
 
 pygame.init()
 
@@ -18,7 +57,7 @@ font_micro = pygame.font.SysFont("Verdana", 10)
 DISPLAY = (1200, 600)
 
 #DISPLAYSURF = pygame.display.set_mode(DISPLAY)
-DISPLAYSURF = pygame.display.set_mode(DISPLAY, pygame.NOFRAME, vsync=1)
+DISPLAYSURF = pygame.display.set_mode(DISPLAY, vsync=1)
 # Título da janela do jogo
 pygame.display.set_caption("Menu de jogo")
 
@@ -57,7 +96,7 @@ def graphics(DS, background, score, score_per_kill, waves, shots):
 
     DISPLAYSURF.blit(font_small.render(str(score_per_kill), True, BLACK), ((DISPLAY[0]/3), 3))
 
-    DISPLAYSURF.blit(font_micro.render("Ordas: ", True, GRAY), (DISPLAY[0]-80, 8))
+    DISPLAYSURF.blit(font_micro.render("Hordas: ", True, GRAY), (DISPLAY[0]-80, 8))
 
     DISPLAYSURF.blit(font_small.render(str(waves), True, BLACK), (DISPLAY[0] -30, 3))
 
@@ -161,7 +200,7 @@ def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
     DS.blit(item_surface, item_rect)
 
-    item_surface = font_small.render("Ordas concluídas: " + str(waves), True, BLUE)
+    item_surface = font_small.render("Hordas concluídas: " + str(waves), True, BLUE)
 
     item_rect = item_surface.get_rect(center=(DISPLAY[0]// 2, (DISPLAY[1] // 2) +70))
 
@@ -184,20 +223,20 @@ def final(DS, msg, color, score, waves, all_sprites, all_shots):
 
 aux_npcs = None
 
-def generateNPCS(waves, interval):
-
-    numberNPCS = waves * random.randint(interval[0], interval[1])
+def generateNPCS(serverNPCS):
 
     global aux_npcs
     npcs = []
 
-    for i in range(numberNPCS):
+    for npc in serverNPCS:
 
-        npcs.append(Enemy((DISPLAY[0] + (i+1) * random.randint(60, 80), random.randint(80, DISPLAY[1] -55))))
+        npcs.append(Enemy((npc['x'], npc['y'])))
 
     aux_npcs = npcs
 
 def game():
+
+    info_game = client.recv()
 
     try:
 
@@ -212,21 +251,23 @@ def game():
 
     pygame.display.set_caption("Zombie Party")
 
-    P1 = Player("P1", 'F', (50, random.randint(80,DISPLAY[1] -55)))
-
     players = pygame.sprite.Group()
-    players.add(P1)
-
     all_sprites = pygame.sprite.Group()
+
+    for key, player in info_game['players'].items():
+
+        P2 = Player(player['name'], player['skin'], (player['x'], player['y']))
+
+        players.add(P2)
+
+
+    P1 = Player(playerName, playerSkin, (info_game['players'][playerID]['x'], info_game['players'][playerID]['y']))
+
+    players.add(P1)
+    
     all_sprites.add(P1)
 
-    waves = 1
-
-    npc_speed = 1
-
-    score_per_kill = 50
-
-    generateNPCS(waves, (2, 5))
+    generateNPCS(info_game['npcs'])
 
     global aux_npcs
 
@@ -254,11 +295,11 @@ def game():
 
         clock.tick(30)
 
-        graphics(DISPLAYSURF, background, P1.getScore(), score_per_kill, waves, 10-len(all_shots))
+        graphics(DISPLAYSURF, background, P1.getScore(), info_game['game_info']['score_per_kill'], info_game['game_info']['waves'], 10-len(all_shots))
 
         for npc in enemies:
 
-            npc.move(DISPLAY, npc_speed)
+            npc.move(DISPLAY, info_game['game_info']['npc_speed'])
 
         P1.move(DISPLAY)
 
@@ -279,7 +320,7 @@ def game():
             i.draw(DISPLAYSURF)
 
             if final_p:
-                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), info_game['game_info']['waves']-1, all_sprites, all_shots)
 
 
         if len(enemies) == 0:
@@ -288,13 +329,7 @@ def game():
 
             if not thread:
 
-                waves +=1
-            
-                npc_speed *= 1.25
-
-                score_per_kill *= 2
-
-                start_new_thread(generateNPCS, (waves, (2, 5)))
+                start_new_thread(generateNPCS, (info_game['npcs'],))
 
                 thread = True
             
@@ -316,7 +351,7 @@ def game():
 
             if npc.getFinal(DISPLAY):
 
-                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), info_game['game_info']['waves']-1, all_sprites, all_shots)
 
         collide = pygame.sprite.groupcollide(players, enemies, True , True)
 
@@ -340,8 +375,7 @@ def game():
             shot_at.setPosition(at_npc.rect.bottomleft)
             deads.add(shot_at)
             deads.add(at_npc)
-            P1.incrementScore(score_per_kill)
-
+            P1.incrementScore(info_game['game_info']['score_per_kill'])
 
         for event in pygame.event.get():
 
@@ -356,38 +390,11 @@ def game():
 
                 game_menu(["Continuar jogo", "Sair"])
 
-        
+        playerPosition = P1.getPosition()
+        client.send(pickle.dumps({'player': {'x': playerPosition[0], 'y': playerPosition[0]}}))
+
         pygame.display.update()
-        
-
-
-# while True:
-
-#     name = input("Please enter your name: ")
-
-#     if  0 < len(name) < 35:
-#         break
-#     else:
-#         print("Erro: Quantidade de caracteres inaceitável.")
-
-# while(True):
-#     # print("'C' - Comboy or 'R' - Robot")
-#     skin = input("'C' - Cowboy or 'R' - Robot\nEscolha sua skin: ")
-
-#     if skin in ['R','C','r','c']:
-#         break
-#     else:
-#         print("Erro: Valor inválido.")
-
-# if skin in ['R','r']:
-#     skin = 'M'
-# else:
-#     skin = 'F'
-
-# connection_server = Network()
-# current_id = connection_server.connect(name,skin)
-# info_game = connection_server.send("get")
-
-# alterar dados do game com ^^^^^^
 
 initGraphics(DISPLAYSURF)
+
+client.close()
