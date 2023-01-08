@@ -4,6 +4,7 @@ import pickle
 import utils
 import random
 from globals import *
+import time
 
 class Server:
 
@@ -73,6 +74,8 @@ class Server:
 
             connection.send(pickle.dumps(data.__sizeof__()))
 
+            time.sleep(0.5)
+
             connection.send(data)
 
             return True
@@ -88,6 +91,8 @@ class Server:
         try:
 
             dataSize = pickle.loads(connection.recv(16))
+
+            time.sleep(0.5)
 
             data = pickle.loads(connection.recv(dataSize))
 
@@ -120,9 +125,7 @@ class Server:
 
     def setupClient(self, connection):
 
-        data = self.recv(connection)
-
-        name, skin = data 
+        name, skin = self.recv(connection)
 
         currentID = self.__playerID
 
