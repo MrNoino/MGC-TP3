@@ -9,15 +9,15 @@ client_socket.connect((host, port))
 
 name = input("Nome: ")
 
+skin = input("Skin: ")
+
 if name.lower().strip() != 'quit':
 
     client_socket.send(pickle.dumps(name))
 
 else:
 
-    exit(0)
-
-skin = input("Skin: ")
+    exit()
 
 if skin.lower().strip() != 'quit':
 
@@ -25,7 +25,7 @@ if skin.lower().strip() != 'quit':
 
 else:
 
-    exit(0)
+    exit()
 
 sizeData = client_socket.recv(16)
 
