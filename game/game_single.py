@@ -39,6 +39,8 @@ DISPLAY = (1200, 600)
 
 DISPLAYSURF = pygame.display.set_mode(DISPLAY, vsync=1)
 
+pygame.display.set_caption("Zombie Party")
+
 def initGame(DS):
     
     DS.fill(WHITE)
