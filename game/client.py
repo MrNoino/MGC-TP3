@@ -34,10 +34,6 @@ class Network:
 
             return None
 
-    def close(self):
-
-        self.__client.close()
-
     def send(self, data):
 
         try:

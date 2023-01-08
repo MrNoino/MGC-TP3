@@ -1,24 +1,24 @@
-playerF_size = (110, 93)
+PLAYER_F_SIZE = (110, 93)
 
-playerM_size = (100,98)
+PLAYER_M_SIZE = (100,98)
 
-playerF_dead = (104, 104)
+PLAYER_F_DEAD = (104, 104)
 
-playerM_dead = (99,92)
+PLAYER_M_DEAD = (99,92)
 
-npcF_size = (90, 100)
+NPC_F_SIZE = (90, 100)
 
-npcM_size = (75,90)
+NPC_M_SIZE = (75,90)
 
-npcF_dead = (118,108)
+NPC_F_DEAD = (118,108)
 
-npcM_dead = (109,91)
+NPC_M_DEAD = (109,91)
 
-shot_size = (10, 8)
+SHOT_SIZE = (10, 8)
 
-shot_dead = (80, 10)
+SHOT_DEAD = (80, 10)
 
-shot_speed = 10
+SHOT_SPEED = 10
 
 BLUE  = (0, 0, 255)
 

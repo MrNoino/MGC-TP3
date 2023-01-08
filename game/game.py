@@ -107,7 +107,7 @@ def displayBackground(DS, background, score, score_per_kill, waves, shots):
 
     try:
 
-        bullet_image = pygame.image.load("png/Objects/Bullet_002.png")
+        bullet_image = pygame.image.load("images/Objects/Bullet_002.png")
 
     except Exception as e:
 
@@ -242,7 +242,7 @@ def game():
 
     try:
 
-        background =  pygame.transform.smoothscale(pygame.image.load("png/grass-hanpaited2.jpg"),(200,200))
+        background =  pygame.transform.smoothscale(pygame.image.load("images/grass-hanpaited2.jpg"),(200,200))
 
     except Exception as e:
 
@@ -314,7 +314,7 @@ def game():
 
         for shot in all_shots:
 
-            shot.move(DISPLAY, shot_speed)
+            shot.move(DISPLAY, SHOT_SPEED)
 
             shot.draw(DISPLAYSURF)
 
@@ -323,7 +323,7 @@ def game():
             i.draw(DISPLAYSURF)
           
         for i in deads:
-            final_p = i.animatedead()
+            final_p = i.animateDead()
             i.draw(DISPLAYSURF)
 
             if final_p:
@@ -404,4 +404,4 @@ def game():
 
 initGame(DISPLAYSURF)
 
-client.close()
+client.disconnect()

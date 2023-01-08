@@ -22,56 +22,56 @@ class Player(entity.Entity):
 
         try:
 
-            self._images = {"C": [[pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (1).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (2).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (3).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (4).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (5).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (6).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (7).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Run (8).png"), playerF_size)]
-                            ,  [pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Shoot (1).png"), playerF_size)]
-                        	,  [pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (2).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (3).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (4).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Melee (5).png"), playerF_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (1).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (2).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (3).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (4).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (5).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (6).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (7).png"), playerF_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/Adventure Girl/Dead (10).png"), playerF_dead)]]
-                        	,"R": [[pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (1).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (2).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (3).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (4).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (5).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (6).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (7).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Run (8).png"), playerM_size)]
-                        	,  [pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (1).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (2).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (3).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (4).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (5).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (6).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (7).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (8).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/RunShoot (9).png"), playerM_size)]
-                        	,  [pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (2).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (3).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (4).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Melee (5).png"), playerM_size),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (1).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (2).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (3).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (4).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (5).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (6).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (7).png"), playerM_dead),
-                                pygame.transform.smoothscale(pygame.image.load("png/RobotFree/Dead (10).png"), playerM_dead)]]}
+            self._images = {"C": [[pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (1).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (2).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (3).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (4).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (5).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (6).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (7).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Run (8).png"), PLAYER_F_SIZE)],
+                                [pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Shoot (1).png"), PLAYER_F_SIZE)],  
+                                [pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Melee (2).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Melee (3).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Melee (4).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Melee (5).png"), PLAYER_F_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (1).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (2).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (3).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (4).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (5).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (6).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (7).png"), PLAYER_F_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/Adventure Girl/Dead (10).png"), PLAYER_F_DEAD)]]
+                        	,"R": [[pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (1).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (2).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (3).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (4).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (5).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (6).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (7).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Run (8).png"), PLAYER_M_SIZE)],
+                                [pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (1).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (2).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (3).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (4).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (5).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (6).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (7).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (8).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/RunShoot (9).png"), PLAYER_M_SIZE)],
+                                [pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Melee (2).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Melee (3).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Melee (4).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Melee (5).png"), PLAYER_M_SIZE),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (1).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (2).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (3).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (4).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (5).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (6).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (7).png"), PLAYER_M_DEAD),
+                                pygame.transform.smoothscale(pygame.image.load("images/RobotFree/Dead (10).png"), PLAYER_M_DEAD)]]}
 
         except Exception as e:
 
@@ -81,6 +81,8 @@ class Player(entity.Entity):
             return
 
         self._images = self._images[type]
+
+        
 
         super().__init__(self._images[0][0], position)
 
@@ -177,7 +179,7 @@ class Player(entity.Entity):
 
                     super().move((0, 5))
                 
-    def animatedead(self):
+    def animateDead(self):
 
         if len(self._images[2])*self.__speed_animation > self.__value_dead:
 

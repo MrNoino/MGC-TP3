@@ -17,50 +17,50 @@ class Enemy(entity.Entity):
 
         try:
 
-            self._images = {"zumbiF": [[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (1).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (2).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (3).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (4).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (5).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (6).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (7).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (8).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (9).png"), npcF_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Walk (10).png"),npcF_size),True,False)]
-                    ,[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (1).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (2).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (3).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (4).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (5).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (6).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (7).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (8).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (9).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (10).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (11).png"),npcF_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/female/Dead (12).png"),npcF_dead),True,False)]]
-                    ,"zumbiM": [[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (1).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (2).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (3).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (4).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (5).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (6).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (7).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (8).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (9).png"), npcM_size),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Walk (10).png"),npcM_size),True,False)]
-                    ,[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (1).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (2).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (3).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (4).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (5).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (6).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (7).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (8).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (9).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (10).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (11).png"),npcM_dead),True,False),
-                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("png/male/Dead (12).png"),npcM_dead),True,False)]]}
+            self._images = {"zumbiF": [[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (1).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (2).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (3).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (4).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (5).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (6).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (7).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (8).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (9).png"), NPC_F_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Walk (10).png"),NPC_F_SIZE),True,False)]
+                    ,[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (1).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (2).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (3).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (4).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (5).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (6).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (7).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (8).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (9).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (10).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (11).png"),NPC_F_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/female/Dead (12).png"),NPC_F_DEAD),True,False)]]
+                    ,"zumbiM": [[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (1).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (2).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (3).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (4).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (5).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (6).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (7).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (8).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (9).png"), NPC_M_SIZE),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Walk (10).png"),NPC_M_SIZE),True,False)]
+                    ,[pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (1).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (2).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (3).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (4).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (5).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (6).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (7).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (8).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (9).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (10).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (11).png"),NPC_M_DEAD),True,False),
+                    pygame.transform.flip(pygame.transform.smoothscale(pygame.image.load("images/male/Dead (12).png"),NPC_M_DEAD),True,False)]]}
 
         except Exception as e:
 
@@ -94,7 +94,7 @@ class Enemy(entity.Entity):
 
         self.__value += 1
 
-    def animatedead(self):
+    def animateDead(self):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if len(self._images[1])*self.__speed_animation > self.__value_dead:
 
