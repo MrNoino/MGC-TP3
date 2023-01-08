@@ -258,7 +258,12 @@ def game():
 
         for npc in enemies:
 
-            npc.move(DISPLAY, npc_speed)
+            npc.move(npc_speed)
+
+            if npc.getFinal():
+
+                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
+
 
         P1.move(DISPLAY)
 
@@ -312,12 +317,7 @@ def game():
 
             continue
 
-        for npc in enemies:
-
-            if npc.getFinal(DISPLAY):
-
-                final(DISPLAYSURF, "GAME OVER!", RED, P1.getScore(), waves-1, all_sprites, all_shots)
-
+            
         collide = pygame.sprite.groupcollide(players, enemies, True , True)
 
         if collide:

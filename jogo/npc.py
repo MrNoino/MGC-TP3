@@ -78,13 +78,13 @@ class Enemy(entity.Entity):
     def setPosition(self, position):
         super().setPosition(position, (-50,0))
 
-    def getFinal(self, displaySize):
+    def getFinal(self):
 
         if self.rect.left <= 0:
             return True
 
 
-    def move(self, displaySize, velocity):
+    def move(self, velocity):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.
         if self.__value >= len(self._images[0])*self.__speed_animation:
             self.__value = 0
@@ -93,11 +93,6 @@ class Enemy(entity.Entity):
         super().setImage(self._images[0][int(self.__value/self.__speed_animation)])
 
         self.__value += 1
-        
-        # top
-        # super().move((0, -5))
-        # bootom
-        # super().move((0, 5))
 
     def animatedead(self):
         # Define qual imagem do array será usada, é necessário para que uma imagem dure mais tempo, assim a animação se completa num maior tempo.

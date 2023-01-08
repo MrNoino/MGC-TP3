@@ -1,5 +1,3 @@
-from pygame import Color
-
 
 playerF_size = (110, 93)
 
