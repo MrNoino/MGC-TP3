@@ -7,7 +7,7 @@ def saveLog(filename, text):
     try:
 
         #abrir o ficheiro log.txt para acrescentar 
-        f = open("exceptions.log", "a")
+        f = open(filename, "a", encoding='utf-8')
 
         #escreve a mensagem desejada com a data e hora 
         f.write("\n" + str(text) + '\t' + datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "\n")
